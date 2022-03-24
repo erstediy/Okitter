@@ -27,10 +27,10 @@ public class UserService implements UserDetailsService {
     private UserRepository repository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, LockedException {
+    public UserDetails loadUserByUsername(String username) throws LockedException {
         User user = repository.findByUsername(username);
-        //if(user == null) throw new LockedException("Пользователь не найден");
-        //if(user.getActivationCode()!=null) throw new LockedException("Аккаунт не активирован");
+        if(user == null) throw new LockedException("Пользователь не найден!");
+        if(user.getActivationCode()!=null) throw new LockedException("Пользователь не активирован!");
         return user;
     }
 

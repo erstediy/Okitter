@@ -1,5 +1,4 @@
 <#macro login path replace isRegisterForm>
-
     <form action="${path}" method="post">
         <div class="mb-3">
             <label class="col-sm-2 col-form-label">Username: </label>

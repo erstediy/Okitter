@@ -49,8 +49,13 @@ public class RegistrationController {
     public String activate(Model model, @PathVariable String code) {
         boolean isActivated = userService.activateUser(code);
 
-        if (isActivated) model.addAttribute("message", "Пользователь успешно активирован!");
-        else model.addAttribute("message", "Код активации не найден!");
+        if (isActivated) {
+            model.addAttribute("messageType","success");
+            model.addAttribute("message", "Пользователь успешно активирован!");
+        } else {
+            model.addAttribute("messageType","danger");
+            model.addAttribute("message", "Код активации не найден!");
+        }
         return "login";
     }
 }

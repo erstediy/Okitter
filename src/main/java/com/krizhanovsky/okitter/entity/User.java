@@ -21,8 +21,8 @@ public class User implements UserDetails{
     @NotBlank(message = "Поле не может быть пустым")
     private String password;
 
-    @Transient
-    private String password2;
+    /*@Transient
+    private String password2;*/
 
     private boolean active;
 
@@ -32,7 +32,7 @@ public class User implements UserDetails{
     private Set<Role> roles;
 
     @Email
-    @NotBlank(message = "")
+    @NotBlank(message = "Поле не может быть пустым")
     private String email;
     private String activationCode;
 
@@ -130,13 +130,13 @@ public class User implements UserDetails{
         this.activationCode = activationCode;
     }
 
-    public String getPassword2() {
+    /*public String getPassword2() {
         return password2;
     }
 
     public void setPassword2(String password2) {
         this.password2 = password2;
-    }
+    }*/
 
     @Override
     public String toString() {

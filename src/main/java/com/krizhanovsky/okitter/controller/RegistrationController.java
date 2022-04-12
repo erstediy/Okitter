@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -26,17 +27,24 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public String addUser(@Valid User user,
+    public String addUser(
+            @RequestParam("password2") String confirmPass,
+                            @Valid User user,
                           BindingResult bindingResult,
                           Model model,
                           RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
+        boolean isConfirmEmpty = confirmPass.isEmpty();
+        if(isConfirmEmpty){
+            model.addAttribute("password2Error","Поле не может быть пустым");
+        }
+        if (isConfirmEmpty || bindingResult.hasErrors()) {
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errorsMap);
             return "registration";
         }
-        if (user.getPassword() != null && !user.getPassword().equals(user.getPassword2())) {
+        if (user.getPassword() != null && !user.getPassword().equals(confirmPass)) {
             model.addAttribute("passwordError", "Пароли не совпадают");
+            model.addAttribute("password2Error", "Пароли не совпадают");
             return "registration";
         }
         if (!userService.addUser(user)) {

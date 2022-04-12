@@ -29,8 +29,13 @@
             <div class="mb-3">
                 <label class="col-sm-2 col-form-label">Password: </label>
                 <div class="col-sm-6">
-                    <input type="password" class="form-control"
+                    <input type="password" class="form-control ${(password2Error??)?string('is-invalid','')}"
                            name="password2" placeholder="Retype password"/>
+                    <#if password2Error??>
+                        <div class="invalid-feedback">
+                            ${password2Error}
+                        </div>
+                    </#if>
                 </div>
             </div>
             <div class="mb-3">

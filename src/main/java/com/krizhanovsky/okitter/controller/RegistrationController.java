@@ -28,7 +28,8 @@ public class RegistrationController {
     @PostMapping("/registration")
     public String addUser(@Valid User user,
                           BindingResult bindingResult,
-                          Model model) {
+                          Model model,
+                          RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errorsMap);
@@ -42,6 +43,9 @@ public class RegistrationController {
             model.addAttribute("usernameError", "User exists!");
             return "registration";
         }
+        redirectAttributes.addFlashAttribute("messageType","success");
+        redirectAttributes.addFlashAttribute("message","Пользователь успешно зарегестрирован," +
+                " на почту отправлен ключ активации");
         return "redirect:/login";
     }
 

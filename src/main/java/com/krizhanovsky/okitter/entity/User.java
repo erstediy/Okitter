@@ -22,9 +22,6 @@ public class User implements UserDetails{
     @NotBlank(message = "Поле не может быть пустым")
     private String password;
 
-    /*@Transient
-    private String password2;*/
-
     private boolean active;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
@@ -32,7 +29,6 @@ public class User implements UserDetails{
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    @NotBlank(message = "Поле не может быть пустым")
     @EmailConstraint
     private String email;
     private String activationCode;

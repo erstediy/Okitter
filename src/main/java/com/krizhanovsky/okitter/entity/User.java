@@ -1,5 +1,6 @@
 package com.krizhanovsky.okitter.entity;
 
+import com.krizhanovsky.okitter.annotation.EmailConstraint;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -31,8 +32,8 @@ public class User implements UserDetails{
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    @Email
     @NotBlank(message = "Поле не может быть пустым")
+    @EmailConstraint
     private String email;
     private String activationCode;
 

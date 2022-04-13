@@ -1,5 +1,5 @@
 <#macro login path replace isRegisterForm>
-    <form action="${path}" method="post">
+    <form <#if isRegisterForm>id="register-form"</#if> action="${path}" method="post">
         <div class="mb-3">
             <label class="col-sm-2 col-form-label">Username: </label>
             <div class="col-sm-6">
@@ -57,14 +57,21 @@
             <button type="button" class="btn btn-link"
                     onclick="window.location.replace('http://localhost:8080/registration')">Зарегистрироваться
             </button>
+
         </#if>
-        <button type="submit" class="btn btn-primary"><#if isRegisterForm>Создать<#else>Войти</#if></button>
+        <button  type="submit" class="btn btn-primary <#if isRegisterForm>g-recaptcha" data-sitekey="6LeDxAgfAAAAAMDPNVqCZkjT03L7BgKbf6Av39yA"
+        data-callback='onSubmit' data-action='submit'>Создать<#else>">Войти</#if></button>
+
         <button type="reset" class="btn btn-secondary">Сбросить</button>
         <button type="button" class="btn btn-secondary" onclick="window.location.replace('${replace}')">Отменить
         </button>
         <#-- <#nested>-->
     </form>
-
+    <script>
+        function onSubmit(token) {
+            document.getElementById("register-form").submit();
+        }
+    </script>
 </#macro>
 
 <#macro logout>
@@ -73,3 +80,4 @@
         <button type="submit" class="btn btn-primary">Выйти</button>
     </form>
 </#macro>
+

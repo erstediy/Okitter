@@ -1,7 +1,10 @@
 package com.krizhanovsky.okitter.controller;
 
 import com.krizhanovsky.okitter.entity.User;
+import com.krizhanovsky.okitter.service.ReCaptchaRegisterService;
 import com.krizhanovsky.okitter.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,8 +21,18 @@ import java.util.Map;
 @Controller
 public class RegistrationController {
 
+    private static final Logger log = LoggerFactory.getLogger(RegistrationController.class);
+
+    private final ReCaptchaRegisterService reCaptchaRegisterService;
+
+    /*@Autowired*/
+    private final UserService userService;
+
     @Autowired
-    private UserService userService;
+    public RegistrationController(ReCaptchaRegisterService reCaptchaRegisterService,UserService userService) {
+        this.reCaptchaRegisterService = reCaptchaRegisterService;
+        this.userService = userService;
+    }
 
     @GetMapping("/registration")
     public String registration() {
@@ -29,11 +42,16 @@ public class RegistrationController {
     @PostMapping("/registration")
     public String addUser(
             @RequestParam("password2") String confirmPass,
+                            @RequestParam("g-recaptcha-response") String response,
                             @Valid User user,
                           BindingResult bindingResult,
                           Model model,
                           RedirectAttributes redirectAttributes) {
+
+        reCaptchaRegisterService.verify(response);
+
         boolean isConfirmEmpty = confirmPass.isEmpty();
+
         if(isConfirmEmpty){
             model.addAttribute("password2Error","Поле не может быть пустым");
         }
